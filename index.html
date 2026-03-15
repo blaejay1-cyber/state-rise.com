@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="RISERP States Panel">
+    <meta property="og:description" content="Visit my Link Dashboard!">
+    <meta property="og:image" content="https://linktiler.com/img/linktiler_logo.png">
+    <meta property="og:url" content="https://linktiler.com/1">
+
+    <title>GrandRPDE03 States Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        :root {
+            --gradient-1: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            --gradient-2: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+            --bg-color: #060714;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 10% 20%, rgba(91, 37, 255, 0.1) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(255, 68, 137, 0.1) 0%, transparent 40%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+.dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: var(--gradient-1);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    animation: titleGlow 8s ease-in-out infinite;
+}
+
+        .search-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 20px rgba(131, 88, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+
+        .link-card {
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .link-card:hover .link-icon {
+            transform: scale(1.1);
+        }
+
+        .link-details {
+            flex: 1;
+        }
+
+        .link-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .powered-by {
+            text-align: center;
+            margin-top: auto;
+            padding: 2rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .powered-by:hover {
+            opacity: 1;
+        }
+
+        .powered-by img {
+            height: 25px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        @keyframes titleGlow {
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.3);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .dashboard-title {
+                font-size: 2rem;
+            }
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="dashboard-title">GrandRPDE03 States Panel</h1>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search your links...">
+            </div>
+        </header>
+
+        <main class="links-grid">
+
+            <div class="link-card" onclick="window.open('https://docs.google.com/spreadsheets/d/1_-Uf83Zn7qw3_C-oHoORYMqWfYQnawcVZNqebsKHE2k/edit?gid=0#gid=0', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #7300ff">
+                        <i class="fas fa-envelope" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Anwälte</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://toolbox.statescloud.de', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #001580">
+                        <i class="fas fa-lightbulb" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">States Toolbox</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://lightbox.statescloud.de/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #7ca3fe">
+                        <i class="fas fa-lightbulb" style="color: black;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">States Lightbox</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://fib-department.com', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #000000">
+                        <i class="fas fa-lightbulb" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">FIB Bußgeldrechner</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://pockettoolbox.statescloud.de', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #4d53fe">
+                        <i class="fas fa-lightbulb" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">PocketToolbox</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://e-md.statescloud.de/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #940000">
+                        <i class="fas fa-heart" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">E-MD</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://tool.statescloud.de/apps/gov_sperrzonen/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #67f99f">
+                        <i class="fas fa-map" style="color: black;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Sperrzonengenerator</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://sperrzone.ls-gov.org', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #67f99f">
+                        <i class="fas fa-map" style="color: black;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Sperrzonengenerator DE02 Version</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://connect2.statescloud.de', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #010afe">
+                        <i class="fas fa-globe" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">States Connect</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://gta5grand.com/forum/forums/242/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #209400">
+                        <i class="fas fa-book" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Gesetzbücher</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://gta5grand.com/forum/threads/1108494/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #209400">
+                        <i class="fas fa-book" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Bußgeldkatalog</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://docs.google.com/spreadsheets/d/1aKSxtL0-xpHQT8xsf4NQnE1_Vp9h8QJxW67jt2Fmkt0/edit?gid=0#gid=0', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #209400">
+                        <i class="fas fa-book" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Eventerlaubnisse</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://conner-blackwood.github.io/grandrp-tuning-calculator/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #6600ff">
+                        <i class="fas fa-dollar-sign" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Chiptuningrechner</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://tool.statescloud.de/apps/beschwerden_generator/', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #ffffff">
+                        <i class="fas fa-globe" style="color: black;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">Beschwerdengenerator (Forum)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-card" onclick="window.open('https://discord.com/invite/cewbzBXqn3', '_blank')">
+                <div class="link-content">
+                    <div class="link-icon" style="background-color: #220070">
+                        <i class="fab fa-discord" style="color: white;"></i>
+                    </div>
+                    <div class="link-details">
+                        <div class="link-title">States Apps Discord</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="powered-by">
+            <a href="https://linktiler.com" style="text-decoration: none; color: inherit;">
+                powered by
+                <img src="https://linktiler.com/img/linktiler_logo.png" alt="Linktiler Logo">
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        document.querySelector('.search-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const linkCards = document.querySelectorAll('.link-card');
+
+            linkCards.forEach(card => {
+                const linkTitle = card.querySelector('.link-title').textContent.toLowerCase();
+                if (linkTitle.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
